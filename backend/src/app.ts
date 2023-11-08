@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import express from 'express';
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
 import { json } from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -9,6 +9,8 @@ import helmet from 'helmet';
 import type { Express } from 'express';
 import type { CorsOptions } from 'cors';
 import type { Server } from 'node:http';
+import { TYPES } from './types';
+import { LoggerServiceInterface } from './common/interfaces/logger.service.interface';
 
 @injectable()
 export class App {
@@ -16,7 +18,7 @@ export class App {
 	private port: number;
 	private server: Server;
 
-	constructor() {
+	constructor(@inject(TYPES.LOGGER) private loggerService: LoggerServiceInterface) {
 		this.port = 3000;
 		this.app = express();
 	}
@@ -24,10 +26,10 @@ export class App {
 	async init(): Promise<void> {
 		this.useMiddlewares();
 		this.server = this.app.listen(this.port, () => {
-			console.log('Server started');
+			this.loggerService.info(`[App] Server started on port ${this.port}`);
 		});
 		process.on('uncaughtException', (err) => {
-			console.error(err);
+			this.loggerService.error(`[App] Uncaught exception ${err.message}`, err);
 		});
 	}
 
