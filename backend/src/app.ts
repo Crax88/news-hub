@@ -12,6 +12,7 @@ import type { Server } from 'node:http';
 import { TYPES } from './types';
 import { LoggerServiceInterface } from './common/interfaces/logger.service.interface';
 import { AuthControllerInterface } from './auth/types/auth.controller.interface';
+import { ConfigServiceInterface } from './common/interfaces/config.service.interface';
 
 @injectable()
 export class App {
@@ -22,8 +23,9 @@ export class App {
 	constructor(
 		@inject(TYPES.LOGGER) private loggerService: LoggerServiceInterface,
 		@inject(TYPES.AUTHCONTROLLER) private authController: AuthControllerInterface,
+		@inject(TYPES.CONFIGSERVICE) private configService: ConfigServiceInterface,
 	) {
-		this.port = 3000;
+		this.port = +this.configService.get('PORT');
 		this.app = express();
 	}
 
@@ -48,11 +50,15 @@ export class App {
 		this.app.use(helmet());
 		const corsOptions: CorsOptions = {
 			origin: (origin, callback) => {
-				callback(null, true);
-				// if (!origin) {
-				// 	callback(new Error('Not Allowed by CORS'));
-				// } else {
-				// }
+				if (
+					!origin ||
+					(this.configService.get('ALLOWED_ORIGINS') &&
+						!this.configService.get('ALLOWED_ORIGINS').includes(origin))
+				) {
+					callback(new Error('Not Allowed by CORS'));
+				} else {
+					callback(null, true);
+				}
 			},
 			credentials: true,
 			optionsSuccessStatus: 200,
