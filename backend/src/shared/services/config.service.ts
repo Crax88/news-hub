@@ -6,7 +6,7 @@ import { LoggerServiceInterface } from '../../common/interfaces/logger.service.i
 @injectable()
 export class ConfigService implements ConfigServiceInterface {
 	private config = {
-		PORT: '',
+		API_PORT: '',
 		NODE_ENV: '',
 		DB_NAME: '',
 		DB_USER: '',

@@ -13,6 +13,7 @@ import { TYPES } from './types';
 import { LoggerServiceInterface } from './common/interfaces/logger.service.interface';
 import { AuthControllerInterface } from './auth/types/auth.controller.interface';
 import { ConfigServiceInterface } from './common/interfaces/config.service.interface';
+import { ExceptionFilterInterface } from './common/interfaces/exeptionFilter.interface';
 
 @injectable()
 export class App {
@@ -24,8 +25,9 @@ export class App {
 		@inject(TYPES.LOGGER) private loggerService: LoggerServiceInterface,
 		@inject(TYPES.AUTHCONTROLLER) private authController: AuthControllerInterface,
 		@inject(TYPES.CONFIGSERVICE) private configService: ConfigServiceInterface,
+		@inject(TYPES.EXCEPTIONFILTER) private exceptionFilter: ExceptionFilterInterface,
 	) {
-		this.port = +this.configService.get('PORT');
+		this.port = +this.configService.get('API_PORT');
 		this.app = express();
 	}
 
@@ -48,6 +50,7 @@ export class App {
 		this.app.use(json());
 		this.app.use(cookieParser());
 		this.app.use(helmet());
+		this.useExceptionFilters();
 		const corsOptions: CorsOptions = {
 			origin: (origin, callback) => {
 				if (
@@ -68,5 +71,9 @@ export class App {
 
 	private useRoutes(): void {
 		this.app.use('/api', this.authController.router);
+	}
+
+	private useExceptionFilters(): void {
+		this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
 	}
 }
