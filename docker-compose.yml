@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:13
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - .:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  api:
+    build:
+      context: ./
+      dockerfile: ./backend/Dockerfile
+      target: ${BUILD_TARGET}
+    env_file:
+      - .env
+    restart: unless-stopped
+    environment:
+      API_PORT: ${API_PORT}
+      DB_PORT: ${DB_PORT}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      NODE_END: ${NODE_ENV}
+      ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+      ACCESS_TOKEN_EXPIRES: ${ACCESS_TOKEN_EXPIRES}
+      SALT: ${SALT}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend/src:/home/node/app/src
+      - back-node-modules:/home/node/app/node_modules
+
+volumes:
+  back-node-modules:
