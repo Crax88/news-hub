@@ -11,6 +11,7 @@ import type { CorsOptions } from 'cors';
 import type { Server } from 'node:http';
 import { TYPES } from './types';
 import { LoggerServiceInterface } from './common/interfaces/logger.service.interface';
+import { AuthControllerInterface } from './auth/types/auth.controller.interface';
 
 @injectable()
 export class App {
@@ -18,13 +19,17 @@ export class App {
 	private port: number;
 	private server: Server;
 
-	constructor(@inject(TYPES.LOGGER) private loggerService: LoggerServiceInterface) {
+	constructor(
+		@inject(TYPES.LOGGER) private loggerService: LoggerServiceInterface,
+		@inject(TYPES.AUTHCONTROLLER) private authController: AuthControllerInterface,
+	) {
 		this.port = 3000;
 		this.app = express();
 	}
 
 	async init(): Promise<void> {
 		this.useMiddlewares();
+		this.useRoutes();
 		this.server = this.app.listen(this.port, () => {
 			this.loggerService.info(`[App] Server started on port ${this.port}`);
 		});
@@ -43,15 +48,19 @@ export class App {
 		this.app.use(helmet());
 		const corsOptions: CorsOptions = {
 			origin: (origin, callback) => {
-				if (!origin) {
-					callback(new Error('Not Allowed by CORS'));
-				} else {
-					callback(null, true);
-				}
+				callback(null, true);
+				// if (!origin) {
+				// 	callback(new Error('Not Allowed by CORS'));
+				// } else {
+				// }
 			},
 			credentials: true,
 			optionsSuccessStatus: 200,
 		};
 		this.app.use(cors(corsOptions));
+	}
+
+	private useRoutes(): void {
+		this.app.use('/api', this.authController.router);
 	}
 }

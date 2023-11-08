@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 import { injectable } from 'inversify';
-import type { Response, Router } from 'express';
+import { Response, Router } from 'express';
 
 import type { LoggerServiceInterface } from './interfaces/logger.service.interface';
 import type { ExpressReturnType, RouteInterface } from './interfaces/route.interface';

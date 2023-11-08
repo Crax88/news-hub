@@ -2,6 +2,8 @@ import { Container } from 'inversify';
 import { App } from './app';
 import { TYPES } from './types';
 import { SharedModule } from './shared/shared.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 export interface IBootsrapReturn {
 	appContainer: Container;
@@ -10,8 +12,10 @@ export interface IBootsrapReturn {
 
 async function bootstrap(): Promise<IBootsrapReturn> {
 	const appContainer = new Container();
+
 	appContainer.bind<App>(TYPES.APPLICATION).to(App).inSingletonScope();
-	appContainer.load(SharedModule);
+	appContainer.load(SharedModule, AuthModule, UsersModule);
+
 	const app = appContainer.get<App>(TYPES.APPLICATION);
 
 	await app.init();
