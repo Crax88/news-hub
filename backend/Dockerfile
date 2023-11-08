@@ -6,6 +6,8 @@ WORKDIR /home/node/app
 
 COPY backend/package*.json ./
 
+COPY backend/prisma ./prisma
+
 USER node
 
 RUN npm ci

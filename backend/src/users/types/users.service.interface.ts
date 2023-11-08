@@ -1,8 +1,4 @@
-export interface User {
-	id: number;
-	email: string;
-	password: string;
-}
+import { User } from '@prisma/client';
 
 export interface UsersServiceInterface {
 	createUser: (email: string, password: string) => Promise<User>;

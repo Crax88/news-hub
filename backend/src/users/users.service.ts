@@ -1,18 +1,20 @@
-import { injectable } from 'inversify';
-import { User, UsersServiceInterface } from './types/users.service.interface';
+import { inject, injectable } from 'inversify';
+import { UsersServiceInterface } from './types/users.service.interface';
+import { TYPES } from '../types';
+import { UsersRepositoryInterface } from './types/users.repository.interface';
+import { User } from '@prisma/client';
 
 @injectable()
 export class UsersService implements UsersServiceInterface {
-	private _users: User[] = [];
+	constructor(@inject(TYPES.USERSREPOSITORY) private usersRepository: UsersRepositoryInterface) {}
 
 	async createUser(email: string, password: string): Promise<User> {
-		const newUser = { id: this._users.length + 1, email, password };
-		this._users.push(newUser);
+		const newUser = await this.usersRepository.create(email, password);
 		return newUser;
 	}
 
 	async findUserByEmail(email: string): Promise<User | null> {
-		const user = this._users.find((u) => u.email === email);
+		const user = await this.usersRepository.findByEmail(email);
 		return user ?? null;
 	}
 }
