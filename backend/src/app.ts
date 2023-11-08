@@ -14,6 +14,7 @@ import { LoggerServiceInterface } from './common/interfaces/logger.service.inter
 import { AuthControllerInterface } from './auth/types/auth.controller.interface';
 import { ConfigServiceInterface } from './common/interfaces/config.service.interface';
 import { ExceptionFilterInterface } from './common/interfaces/exeptionFilter.interface';
+import { config } from 'dotenv';
 
 @injectable()
 export class App {

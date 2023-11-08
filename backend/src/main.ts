@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ExceptionFilterInterface } from './common/interfaces/exeptionFilter.interface';
 import { ExceptionFilter } from './errors/exception.filter';
+import { config } from 'dotenv';
 
 export interface IBootsrapReturn {
 	appContainer: Container;
@@ -13,6 +14,9 @@ export interface IBootsrapReturn {
 }
 
 async function bootstrap(): Promise<IBootsrapReturn> {
+	if (!process.env.USE_ENVS) {
+		config();
+	}
 	const appContainer = new Container();
 
 	appContainer.bind<App>(TYPES.APPLICATION).to(App).inSingletonScope();
