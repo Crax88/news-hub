@@ -14,7 +14,7 @@ import { LoggerServiceInterface } from './common/interfaces/logger.service.inter
 import { AuthControllerInterface } from './auth/types/auth.controller.interface';
 import { ConfigServiceInterface } from './common/interfaces/config.service.interface';
 import { ExceptionFilterInterface } from './common/interfaces/exeptionFilter.interface';
-import { config } from 'dotenv';
+import { NewsControllerInterface } from './news/types/news.controller.interface';
 
 @injectable()
 export class App {
@@ -27,6 +27,7 @@ export class App {
 		@inject(TYPES.AUTHCONTROLLER) private authController: AuthControllerInterface,
 		@inject(TYPES.CONFIGSERVICE) private configService: ConfigServiceInterface,
 		@inject(TYPES.EXCEPTIONFILTER) private exceptionFilter: ExceptionFilterInterface,
+		@inject(TYPES.NEWSCONTROLLER) private newsController: NewsControllerInterface,
 	) {
 		this.port = +this.configService.get('API_PORT');
 		this.app = express();
@@ -35,6 +36,7 @@ export class App {
 	async init(): Promise<void> {
 		this.useMiddlewares();
 		this.useRoutes();
+		this.useExceptionFilters();
 		this.server = this.app.listen(this.port, () => {
 			this.loggerService.info(`[App] Server started on port ${this.port}`);
 		});
@@ -51,18 +53,19 @@ export class App {
 		this.app.use(json());
 		this.app.use(cookieParser());
 		this.app.use(helmet());
-		this.useExceptionFilters();
+
 		const corsOptions: CorsOptions = {
 			origin: (origin, callback) => {
-				if (
-					!origin ||
-					(this.configService.get('ALLOWED_ORIGINS') &&
-						!this.configService.get('ALLOWED_ORIGINS').includes(origin))
-				) {
-					callback(new Error('Not Allowed by CORS'));
-				} else {
-					callback(null, true);
-				}
+				callback(null, true);
+				// if (
+				// 	!origin ||
+				// 	(this.configService.get('ALLOWED_ORIGINS') &&
+				// 		!this.configService.get('ALLOWED_ORIGINS').includes(origin))
+				// ) {
+				// 	callback(new Error('Not Allowed by CORS'));
+				// } else {
+				// 	callback(null, true);
+				// }
 			},
 			credentials: true,
 			optionsSuccessStatus: 200,
@@ -72,6 +75,7 @@ export class App {
 
 	private useRoutes(): void {
 		this.app.use('/api', this.authController.router);
+		this.app.use('/api', this.newsController.router);
 	}
 
 	private useExceptionFilters(): void {

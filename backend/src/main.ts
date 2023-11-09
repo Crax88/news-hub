@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { ExceptionFilterInterface } from './common/interfaces/exeptionFilter.interface';
 import { ExceptionFilter } from './errors/exception.filter';
 import { config } from 'dotenv';
+import { NewsModule } from './news/news.module';
 
 export interface IBootsrapReturn {
 	appContainer: Container;
@@ -24,7 +25,7 @@ async function bootstrap(): Promise<IBootsrapReturn> {
 		.bind<ExceptionFilterInterface>(TYPES.EXCEPTIONFILTER)
 		.to(ExceptionFilter)
 		.inSingletonScope();
-	appContainer.load(SharedModule, AuthModule, UsersModule);
+	appContainer.load(SharedModule, AuthModule, UsersModule, NewsModule);
 
 	const app = appContainer.get<App>(TYPES.APPLICATION);
 
