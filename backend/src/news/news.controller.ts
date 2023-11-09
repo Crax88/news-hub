@@ -8,6 +8,7 @@ import { BaseController } from '../common/base.controller';
 
 import { NewsControllerInterface } from './types/news.controller.interface';
 import { NewsServiceInterface } from './types/news.service.interface';
+import { ValidationMiddleware } from '../common/validation.middleware';
 
 @injectable()
 export class NewsController extends BaseController implements NewsControllerInterface {
@@ -19,8 +20,18 @@ export class NewsController extends BaseController implements NewsControllerInte
 
 		this.bindRoutes([
 			{ path: '/news', method: 'get', handler: this.getNews },
-			{ path: '/news', method: 'post', handler: this.createNew },
-			{ path: '/news/:id', method: 'put', handler: this.updateNew },
+			{
+				path: '/news',
+				method: 'post',
+				handler: this.createNew,
+				middlewares: [new ValidationMiddleware(CreateNewDto)],
+			},
+			{
+				path: '/news/:id',
+				method: 'put',
+				handler: this.updateNew,
+				middlewares: [new ValidationMiddleware(UpdateNewDto)],
+			},
 			{ path: '/news/:id', method: 'delete', handler: this.deleteNew },
 		]);
 	}

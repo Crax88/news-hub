@@ -6,6 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 import { SignInDto, SignUpDto } from './types/dto';
 import { BaseController } from '../common/base.controller';
 import { AuthServiceInterface } from './types/auth.service.interface';
+import { ValidationMiddleware } from '../common/validation.middleware';
 
 @injectable()
 export class AuthController extends BaseController implements AuthControllerInterface {
@@ -16,8 +17,18 @@ export class AuthController extends BaseController implements AuthControllerInte
 		super(loggerService);
 
 		this.bindRoutes([
-			{ path: '/sign-up', method: 'post', handler: this.signUp },
-			{ path: '/sign-in', method: 'post', handler: this.signIn },
+			{
+				path: '/sign-up',
+				method: 'post',
+				handler: this.signUp,
+				middlewares: [new ValidationMiddleware(SignUpDto)],
+			},
+			{
+				path: '/sign-in',
+				method: 'post',
+				handler: this.signIn,
+				middlewares: [new ValidationMiddleware(SignInDto)],
+			},
 		]);
 	}
 

@@ -25,7 +25,7 @@ export class NewsService implements NewsServiceInterface {
 			body: dto.body,
 			authorId: userId,
 			isPublished: dto.isPublished,
-			publishDate: dto.isPublished ? new Date().toISOString() : undefined,
+			publishDate: dto.isPublished ? new Date().toISOString() : dto.publishDate,
 		});
 		return newNew;
 	}
