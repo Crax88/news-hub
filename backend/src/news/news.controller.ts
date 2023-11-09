@@ -9,6 +9,7 @@ import { BaseController } from '../common/base.controller';
 import { NewsControllerInterface } from './types/news.controller.interface';
 import { NewsServiceInterface } from './types/news.service.interface';
 import { ValidationMiddleware } from '../common/validation.middleware';
+import { AuthGuard } from '../auth/auth.guard';
 
 @injectable()
 export class NewsController extends BaseController implements NewsControllerInterface {
@@ -24,15 +25,20 @@ export class NewsController extends BaseController implements NewsControllerInte
 				path: '/news',
 				method: 'post',
 				handler: this.createNew,
-				middlewares: [new ValidationMiddleware(CreateNewDto)],
+				middlewares: [new AuthGuard(), new ValidationMiddleware(CreateNewDto)],
 			},
 			{
 				path: '/news/:id',
 				method: 'put',
 				handler: this.updateNew,
-				middlewares: [new ValidationMiddleware(UpdateNewDto)],
+				middlewares: [new AuthGuard(), new ValidationMiddleware(UpdateNewDto)],
 			},
-			{ path: '/news/:id', method: 'delete', handler: this.deleteNew },
+			{
+				path: '/news/:id',
+				method: 'delete',
+				handler: this.deleteNew,
+				middlewares: [new AuthGuard()],
+			},
 		]);
 	}
 
@@ -51,7 +57,7 @@ export class NewsController extends BaseController implements NewsControllerInte
 		next: NextFunction,
 	): Promise<void> {
 		try {
-			const newNew = await this.newsService.createNew(req.body, 1);
+			const newNew = await this.newsService.createNew(req.body, req.userId);
 			this.ok(res, { new: newNew });
 		} catch (error) {
 			next(error);
@@ -64,7 +70,7 @@ export class NewsController extends BaseController implements NewsControllerInte
 		next: NextFunction,
 	): Promise<void> {
 		try {
-			const updatedNew = await this.newsService.updateNew(+req.params.id, req.body, 1);
+			const updatedNew = await this.newsService.updateNew(+req.params.id, req.body, req.userId);
 			this.ok(res, { new: updatedNew });
 		} catch (error) {
 			next(error);
@@ -73,7 +79,7 @@ export class NewsController extends BaseController implements NewsControllerInte
 
 	async deleteNew(req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> {
 		try {
-			await this.newsService.deleteNew(+req.params.id, 1);
+			await this.newsService.deleteNew(+req.params.id, req.userId);
 			this.ok(res, { new: {} });
 		} catch (error) {
 			next(error);

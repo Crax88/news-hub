@@ -15,6 +15,8 @@ import { AuthControllerInterface } from './auth/types/auth.controller.interface'
 import { ConfigServiceInterface } from './common/interfaces/config.service.interface';
 import { ExceptionFilterInterface } from './common/interfaces/exeptionFilter.interface';
 import { NewsControllerInterface } from './news/types/news.controller.interface';
+import { AuthMiddleware } from './auth/auth.middleware';
+import { MiddlewareInterface } from './common/interfaces/middleware.interface';
 
 @injectable()
 export class App {
@@ -28,6 +30,7 @@ export class App {
 		@inject(TYPES.CONFIGSERVICE) private configService: ConfigServiceInterface,
 		@inject(TYPES.EXCEPTIONFILTER) private exceptionFilter: ExceptionFilterInterface,
 		@inject(TYPES.NEWSCONTROLLER) private newsController: NewsControllerInterface,
+		@inject(TYPES.AUTHMIDDLEWARE) private authMiddleware: MiddlewareInterface,
 	) {
 		this.port = +this.configService.get('API_PORT');
 		this.app = express();
@@ -71,6 +74,8 @@ export class App {
 			optionsSuccessStatus: 200,
 		};
 		this.app.use(cors(corsOptions));
+
+		this.app.use(this.authMiddleware.execute.bind(this.authMiddleware));
 	}
 
 	private useRoutes(): void {

@@ -17,7 +17,7 @@ export class SignInDto {
 	email: string;
 
 	@IsNotEmpty({ message: 'required' })
-	pasword: string;
+	password: string;
 }
 
 export interface TokenPayloadDto {

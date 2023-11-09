@@ -5,6 +5,8 @@ import { TYPES } from '../types';
 import { PasswordServiceInterface } from './types/password.service.interface';
 import { UsersServiceInterface } from '../users/types/users.service.interface';
 import { TokenServiceInterface } from './types/token.service.interface';
+import { HttpError } from '../errors/httpError';
+import { ValidationError } from '../errors/validationError';
 
 @injectable()
 export class AuthService implements AuthServiceInterface {
@@ -16,7 +18,7 @@ export class AuthService implements AuthServiceInterface {
 	async signUp(dto: SignUpDto): Promise<{ token: string }> {
 		const candidate = await this.usersService.findUserByEmail(dto.email);
 		if (candidate) {
-			throw new Error('Email already exists');
+			throw new ValidationError({ email: ['Already exist'] });
 		}
 
 		const salt = await this.passwordService.getSalt(10);
@@ -31,7 +33,7 @@ export class AuthService implements AuthServiceInterface {
 	async signIn(dto: SignInDto): Promise<{ token: string }> {
 		const candidate = await this.usersService.findUserByEmail(dto.email);
 		if (!candidate) {
-			throw new Error('Invalid credentials');
+			throw new HttpError(400, 'Invalid credentials');
 		}
 		const token = await this.tokenService.generateToken(candidate.id);
 		return { token };

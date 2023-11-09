@@ -15,7 +15,6 @@ export class ExceptionFilter implements ExceptionFilterInterface {
 	constructor(@inject(TYPES.LOGGER) private loggerService: LoggerServiceInterface) {}
 
 	catch(err: Error | HttpError, req: Request, res: Response, next: NextFunction): void {
-		console.log('ERRROR');
 		if (err instanceof ValidationError) {
 			this.loggerService.warn(`[${err.context}] Error: ${err.statusCode} ${err.message}`);
 			res.status(err.statusCode).send({ errors: err.errors });

@@ -11,7 +11,10 @@ export class NewsRepository implements NewsRepositoryInterface {
 	constructor(@inject(TYPES.PRISMASERVICE) private prismaService: PrismaService) {}
 
 	async create(dto: CreateNewDto & { authorId: number }): Promise<New> {
-		return await this.prismaService.client.new.create({ data: dto });
+		return await this.prismaService.client.new.create({
+			data: dto,
+			include: { author: { select: { id: true, email: true } } },
+		});
 	}
 
 	async getById(newId: number): Promise<New | null> {

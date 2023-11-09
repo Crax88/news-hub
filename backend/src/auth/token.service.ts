@@ -12,7 +12,7 @@ export class TokenService implements TokenServiceInterface {
 		return token;
 	}
 
-	async validateToken(token: string, salt: string): Promise<TokenPayloadDto | null> {
+	async validateToken(token: string): Promise<TokenPayloadDto | null> {
 		try {
 			const decoded = verify(token, 'TOKEN_SECRET');
 			return decoded as TokenPayloadDto;
