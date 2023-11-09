@@ -18,7 +18,7 @@ export class AuthService implements AuthServiceInterface {
 	async signUp(dto: SignUpDto): Promise<{ token: string }> {
 		const candidate = await this.usersService.findUserByEmail(dto.email);
 		if (candidate) {
-			throw new ValidationError({ email: ['Already exist'] });
+			throw new ValidationError({ email: ['Already exist'] }, 'AuthService');
 		}
 
 		const salt = await this.passwordService.getSalt(10);
@@ -33,7 +33,7 @@ export class AuthService implements AuthServiceInterface {
 	async signIn(dto: SignInDto): Promise<{ token: string }> {
 		const candidate = await this.usersService.findUserByEmail(dto.email);
 		if (!candidate) {
-			throw new HttpError(400, 'Invalid credentials');
+			throw new HttpError(400, 'Invalid credentials', 'AuthService');
 		}
 		const token = await this.tokenService.generateToken(candidate.id);
 		return { token };

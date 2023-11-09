@@ -34,11 +34,11 @@ export class NewsService implements NewsServiceInterface {
 		const foundNew = await this.newsRepository.getById(newId);
 
 		if (!foundNew) {
-			throw new HttpError(404, 'Not found');
+			throw new HttpError(404, 'Not found', 'NewsService');
 		}
 
 		if (foundNew.authorId !== userId) {
-			throw new HttpError(403, 'Not authorized');
+			throw new HttpError(403, 'Not authorized', 'NewsService');
 		}
 
 		const updatedNew = await this.newsRepository.update(newId, {
@@ -49,7 +49,7 @@ export class NewsService implements NewsServiceInterface {
 		});
 
 		if (!updatedNew) {
-			throw new HttpError(404, 'Not found');
+			throw new HttpError(404, 'Not found', 'NewsService');
 		}
 
 		return updatedNew;
@@ -59,11 +59,11 @@ export class NewsService implements NewsServiceInterface {
 		const foundNew = await this.newsRepository.getById(newId);
 
 		if (!foundNew) {
-			throw new HttpError(404, 'Not found');
+			throw new HttpError(404, 'Not found', 'NewsService');
 		}
 
 		if (foundNew.authorId !== userId) {
-			throw new HttpError(403, 'Not authorized');
+			throw new HttpError(403, 'Not authorized', 'NewsService');
 		}
 
 		await this.newsRepository.delete(newId);

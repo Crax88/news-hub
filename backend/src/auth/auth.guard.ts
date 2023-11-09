@@ -8,7 +8,7 @@ export class AuthGuard implements MiddlewareInterface {
 		if (req.userId) {
 			next();
 		} else {
-			next(new HttpError(401, 'unauthorized'));
+			next(new HttpError(401, 'unauthorized', 'AuthGuard'));
 		}
 	}
 }
