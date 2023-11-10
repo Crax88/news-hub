@@ -1,0 +1,11 @@
+.ui_logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--fs-600);
+}
+
+.ui_logo_icon {
+  height: 3rem;
+  width: 3rem;
+}

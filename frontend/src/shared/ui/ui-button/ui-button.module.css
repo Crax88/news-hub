@@ -1,0 +1,48 @@
+.ui_button {
+  border-radius: 0.25rem;
+  border: 1px solid hsl(var(--clr-gray) / 0.8);
+  color: hsl(var(--clr-gray) / 0.8);
+  background-color: transparent;
+  cursor: pointer;
+  font-size: var(--fs-400);
+  padding: 0.5rem 1rem;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.ui_button:hover {
+  opacity: 0.8;
+}
+
+.ui_button_primary {
+  --text-color: hsl(var(--clr-white) / 1);
+  --accent-color: hsl(var(--clr-primary) / 1);
+}
+
+.ui_button_danger {
+  --text-color: hsl(var(--clr-white) / 1);
+  --accent-color: hsl(var(--clr-danger) / 1);
+}
+
+.ui_button_contained {
+  color: var(--text-color, hsl(var(--clr-white)));
+  background-color: var(--accent-color, hsl(var(--clr-gray)));
+  border-color: var(--accent-color, hsl(var(--clr-gray)));
+}
+
+.ui_button_outlined {
+  color: var(--accent-color);
+  background-color: var(--text-color);
+  border-color: var(--accent-color);
+}
+
+.ui_button_small {
+  padding: 0.25rem 0.5rem;
+  font-size: var(--fs-300);
+}
+
+.ui_button_large {
+  padding: 0.75rem 1.5rem;
+  font-size: var(--fs-500);
+}

@@ -1,0 +1,24 @@
+.ui_textfield {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.ui_textfield_label {
+  display: block;
+}
+
+.ui_textfield_input {
+  outline: none;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid hsl(var(--clr-primary) / 1);
+}
+
+.ui_textfield_input:focus-visible {
+  border: 1px solid hsl(var(--clr-primary) / 0.5);
+}
+
+.ui_textfield_error {
+  color: hsl(var(--clr-danger) / 1);
+}

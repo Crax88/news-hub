@@ -1,0 +1,13 @@
+.ui_link {
+  color: hsl(var(--clr-black) / 1);
+  text-decoration: none;
+}
+
+.ui_link:hover {
+  opacity: 0.7;
+}
+
+.ui_link_active {
+  color: hsl(var(--clr-black) / 0.8);
+  text-decoration: underline;
+}
