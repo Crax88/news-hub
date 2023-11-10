@@ -1,0 +1,7 @@
+.sign_up {
+  max-width: 400px;
+  margin: auto;
+  padding: 1rem 1rem;
+  border: 1px solid hsl(var(--clr-gray) / 1);
+  border-radius: 8px;
+}

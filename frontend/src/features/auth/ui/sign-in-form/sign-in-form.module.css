@@ -1,0 +1,19 @@
+.sign_in_form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sign_in_form_error {
+  color: hsl(var(--clr-danger));
+}
+
+.sign_in_form_text {
+  margin-left: auto;
+  margin-top: 1rem;
+  font-size: var(--fs-400);
+}
+
+.sign_in_form_link {
+  color: hsl(var(--clr-primary));
+}
