@@ -1,0 +1,30 @@
+.new_item_preview {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 0;
+}
+
+.new_item_preview_link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.new_item_preview_link h2 {
+  font-size: var(--fs-600);
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+
+.new_item_preview_link p {
+  font-size: var(--fs-400);
+  font-weight: 300;
+  line-height: 1.3;
+  color: hsl(var(--clr-dark-gray));
+  margin-bottom: 15px;
+}
+
+.new_item_preview_link span {
+  color: hsl(var(--clr-dark-gray));
+  font-weight: 300;
+  font-size: var(--fs-300);
+  max-width: 30%;
+}
