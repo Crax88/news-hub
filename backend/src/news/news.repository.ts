@@ -18,7 +18,10 @@ export class NewsRepository implements NewsRepositoryInterface {
 	}
 
 	async getById(newId: number): Promise<New | null> {
-		return await this.prismaService.client.new.findFirst({ where: { id: newId } });
+		return await this.prismaService.client.new.findFirst({
+			where: { id: newId },
+			include: { author: { select: { id: true, email: true } } },
+		});
 	}
 
 	async delete(newId: number): Promise<New> {

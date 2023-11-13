@@ -6,4 +6,5 @@ export interface NewsServiceInterface {
 	updateNew: (newId: number, dto: UpdateNewDto, userId: number) => Promise<New>;
 	deleteNew: (newId: number, userId: number) => Promise<void>;
 	getNews: () => Promise<New[]>;
+	getNew: (newId: number) => Promise<New>;
 }

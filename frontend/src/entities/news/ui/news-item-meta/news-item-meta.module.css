@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: hsl(var(--clr-gray));
 }
 
 .news_item_meta_info {
@@ -23,6 +24,6 @@
 
 .actions_container {
   display: flex;
+  gap: 0.5rem;
   align-items: center;
-  width: 100%;
 }

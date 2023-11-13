@@ -1,8 +1,9 @@
-import { UiHeader, UiLink, UiPageSpinner } from "@/shared/ui";
+import { UiHeader, UiPageSpinner } from "@/shared/ui";
 import { ReactNode, Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { AppLayout } from "./app-layout";
-import { Navbar } from "@/widgets/navbar/navbar";
+import { Navbar } from "@/widgets/navbar";
+import { Profile } from "@/widgets/profile";
 
 const WithWrapper = ({ children }: { children: ReactNode }) => {
   return <Suspense fallback={<UiPageSpinner />}>{children}</Suspense>;
@@ -21,13 +22,29 @@ const SignUp = lazy(() =>
     default: module.SignUpPage,
   }))
 );
+const EditorPAge = lazy(() =>
+  import("@/pages/new-editor/new-editor").then((module) => ({
+    default: module.EditorPage,
+  }))
+);
+const NewPage = lazy(() =>
+  import("@/pages/new/new").then((module) => ({
+    default: module.NewPage,
+  }))
+);
 
 export const AppRouting = () => {
   return (
     <Routes>
       <Route
         path="/"
-        element={<AppLayout headerSlot={<UiHeader rightSlot={<Navbar />} />} />}
+        element={
+          <AppLayout
+            headerSlot={
+              <UiHeader rightSlot={<Navbar rightSlot={<Profile />} />} />
+            }
+          />
+        }
       >
         <Route
           index
@@ -37,14 +54,6 @@ export const AppRouting = () => {
             </WithWrapper>
           }
         />
-        {/* <Route
-          path="/feed"
-          element={
-            <WithWrapper>
-              <ArticlesPage />
-            </WithWrapper>
-          }
-        /> */}
         <Route
           path="/sign-in"
           element={
@@ -61,40 +70,32 @@ export const AppRouting = () => {
             </WithWrapper>
           }
         />
-        {/* <Route
-          path="/article/:slug"
+        <Route
+          path="/news/:id"
           element={
             <WithWrapper>
-              <ArticlePage />
+              <NewPage />
             </WithWrapper>
           }
-        /> */}
-        {/* <Route
-          path="/editor/:slug"
+        />
+        <Route
+          path="/editor/:id"
           element={
             <WithWrapper>
-              <EditorPage />
+              <EditorPAge />
             </WithWrapper>
           }
-        /> */}
-        {/* <Route
+        />
+        <Route
           path="/editor"
           element={
             <WithWrapper>
-              <EditorPage />
+              <EditorPAge />
             </WithWrapper>
           }
-        /> */}
+        />
         {/* <Route
           path="/profile/:username"
-          element={
-            <WithWrapper>
-              <ProfilePage />
-            </WithWrapper>
-          }
-        /> */}
-        {/* <Route
-          path="/profile/:username/favorited"
           element={
             <WithWrapper>
               <ProfilePage />

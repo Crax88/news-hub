@@ -15,7 +15,7 @@ import { AuthControllerInterface } from './auth/types/auth.controller.interface'
 import { ConfigServiceInterface } from './common/interfaces/config.service.interface';
 import { ExceptionFilterInterface } from './common/interfaces/exeptionFilter.interface';
 import { NewsControllerInterface } from './news/types/news.controller.interface';
-import { AuthMiddleware } from './auth/auth.middleware';
+import { PrismaService } from './shared/services/prisma.service';
 import { MiddlewareInterface } from './common/interfaces/middleware.interface';
 
 @injectable()
@@ -31,6 +31,7 @@ export class App {
 		@inject(TYPES.EXCEPTIONFILTER) private exceptionFilter: ExceptionFilterInterface,
 		@inject(TYPES.NEWSCONTROLLER) private newsController: NewsControllerInterface,
 		@inject(TYPES.AUTHMIDDLEWARE) private authMiddleware: MiddlewareInterface,
+		@inject(TYPES.PRISMASERVICE) private prismaService: PrismaService,
 	) {
 		this.port = +this.configService.get('API_PORT');
 		this.app = express();
@@ -40,6 +41,7 @@ export class App {
 		this.useMiddlewares();
 		this.useRoutes();
 		this.useExceptionFilters();
+		await this.prismaService.connect();
 		this.server = this.app.listen(this.port, () => {
 			this.loggerService.info(`[App] Server started on port ${this.port}`);
 		});

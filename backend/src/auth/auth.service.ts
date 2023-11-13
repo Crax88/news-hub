@@ -30,6 +30,7 @@ export class AuthService implements AuthServiceInterface {
 
 		return { token };
 	}
+
 	async signIn(dto: SignInDto): Promise<{ token: string }> {
 		const candidate = await this.usersService.findUserByEmail(dto.email);
 		if (!candidate) {
@@ -37,5 +38,13 @@ export class AuthService implements AuthServiceInterface {
 		}
 		const token = await this.tokenService.generateToken(candidate.id);
 		return { token };
+	}
+
+	async getSession(userId: number): Promise<{ userId: number; email: string }> {
+		const candidate = await this.usersService.findUserById(userId);
+		if (!candidate) {
+			throw new HttpError(403, 'Unauthorized', 'AuthService');
+		}
+		return { userId: candidate.id, email: candidate.email };
 	}
 }

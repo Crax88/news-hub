@@ -1,7 +1,7 @@
 import { authControllerSignIn } from "@/shared/api/generated";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { signIn } from "@/shared/api";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,7 @@ export type SigInFormSchema = z.infer<typeof signInFormSchema>;
 
 export const useSignInForm = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -37,6 +38,7 @@ export const useSignInForm = () => {
     mutationFn: signIn,
     onSuccess: () => {
       navigate("/");
+      queryClient.invalidateQueries(["session"]);
     },
   });
 
@@ -47,7 +49,6 @@ export const useSignInForm = () => {
       signInMutation.error.response &&
       signInMutation.error.response.data.errors
     ) {
-      console.log(signInMutation.error);
       for (const key in signInMutation.error.response.data.errors) {
         if (key === "error") {
           error.push(signInMutation.error.response.data.errors[key]);

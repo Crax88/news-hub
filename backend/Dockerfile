@@ -6,13 +6,15 @@ WORKDIR /home/node/app
 
 COPY backend/package*.json ./
 
-COPY backend/prisma ./prisma
+# COPY backend/prisma ./prisma
 
 USER node
 
 RUN npm ci
 
 COPY --chown=node:node backend/. .
+
+RUN npx prisma migrate deploy
 
 EXPOSE 4000
 

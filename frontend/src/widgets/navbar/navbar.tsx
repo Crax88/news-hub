@@ -1,14 +1,18 @@
 import classes from "./Navbar.module.css";
 import { ReactNode } from "react";
 import { UiLink } from "@/shared/ui";
+import { useSessionQuery } from "@/entities/session";
 
-export const Navbar = () => {
-  const isAuth = false;
-  const user = { email: "test@test.com", id: 1 };
+export const Navbar = ({ rightSlot }: { rightSlot: ReactNode }) => {
+  const { data: session, isLoading } = useSessionQuery();
+
+  if (isLoading) {
+    return null;
+  }
 
   let content: ReactNode = "";
 
-  if (!isAuth) {
+  if (!session) {
     content = (
       <>
         <li>
@@ -42,7 +46,7 @@ export const Navbar = () => {
           </UiLink>
         </li>
 
-        <li>{user?.email}</li>
+        <li>{rightSlot}</li>
       </>
     );
   }

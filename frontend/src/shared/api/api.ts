@@ -51,6 +51,35 @@ export const signIn = (
   );
 };
 
+export interface SessionDto {
+  email: string;
+  userId: number;
+}
+
+export const getSession = (
+  options?: SecondParameter<typeof createInstance>
+) => {
+  return createInstance<{ session: { userId: number; email: string } }>(
+    {
+      url: `/session`,
+      method: "get",
+      headers: { "Content-Type": "application/json" },
+    },
+    options
+  );
+};
+
+export const signOut = (options?: SecondParameter<typeof createInstance>) => {
+  return createInstance<void>(
+    {
+      url: `/sign-out`,
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+    },
+    options
+  );
+};
+
 export interface NewsItemDto {
   id: number;
   title: string;
@@ -92,6 +121,56 @@ export const createNewsItem = (
       method: "post",
       headers: { "Content-Type": "application/json" },
       data: createNewsItemDto,
+    },
+    options
+  );
+};
+
+export interface UpdateNewsItemDto {
+  title: string;
+  body: string;
+  isPublished: boolean;
+  publishDate: string;
+}
+
+export const updateNewsItem = (
+  dto: { updateNewsItemDto: BodyType<UpdateNewsItemDto>; id: number },
+  options?: SecondParameter<typeof createInstance>
+) => {
+  return createInstance<NewsItemDto>(
+    {
+      url: `/news/${dto.id}`,
+      method: "put",
+      headers: { "Content-Type": "application/json" },
+      data: dto.updateNewsItemDto,
+    },
+    options
+  );
+};
+
+export const getNewsItem = (
+  newsItemId: number,
+  options?: SecondParameter<typeof createInstance>
+) => {
+  return createInstance<{ new: NewsItemDto }>(
+    {
+      url: `/news/${newsItemId}`,
+      method: "get",
+      headers: { "Content-Type": "application/json" },
+    },
+    options
+  );
+};
+
+export const deleteNewsItem = (
+  newsItemId: number,
+  options?: SecondParameter<typeof createInstance>
+) => {
+  return createInstance<{ new: NewsItemDto }>(
+    {
+      url: `/news/${newsItemId}`,
+      method: "delete",
+      headers: { "Content-Type": "application/json" },
     },
     options
   );

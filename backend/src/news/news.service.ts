@@ -70,4 +70,13 @@ export class NewsService implements NewsServiceInterface {
 
 		return;
 	}
+
+	async getNew(newId: number): Promise<New> {
+		const foundNew = await this.newsRepository.getById(newId);
+		if (!foundNew) {
+			throw new HttpError(404, 'Not found', 'NewsService');
+		}
+
+		return foundNew;
+	}
 }

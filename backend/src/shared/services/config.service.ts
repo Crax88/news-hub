@@ -17,6 +17,8 @@ export class ConfigService implements ConfigServiceInterface {
 		ACCESS_TOKEN_EXPIRES: '',
 		SALT: '',
 		ALLOWED_ORIGINS: '',
+		TOKEN_KEY: '',
+		TOKEN_COOKIE_EXPIRES: '',
 	};
 	constructor(@inject(TYPES.LOGGER) private loggerService: LoggerServiceInterface) {
 		try {

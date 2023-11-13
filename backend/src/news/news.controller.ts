@@ -39,6 +39,11 @@ export class NewsController extends BaseController implements NewsControllerInte
 				handler: this.deleteNew,
 				middlewares: [new AuthGuard()],
 			},
+			{
+				path: '/news/:id',
+				method: 'get',
+				handler: this.getNew,
+			},
 		]);
 	}
 
@@ -81,6 +86,15 @@ export class NewsController extends BaseController implements NewsControllerInte
 		try {
 			await this.newsService.deleteNew(+req.params.id, req.userId);
 			this.ok(res, { new: {} });
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	async getNew(req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> {
+		try {
+			const newItem = await this.newsService.getNew(+req.params.id);
+			this.ok(res, { new: newItem });
 		} catch (error) {
 			next(error);
 		}

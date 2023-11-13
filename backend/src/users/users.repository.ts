@@ -15,4 +15,8 @@ export class UsersRepository implements UsersRepositoryInterface {
 	async findByEmail(email: string): Promise<User | null> {
 		return await this.prismaService.client.user.findFirst({ where: { email } });
 	}
+
+	async findById(id: number): Promise<User | null> {
+		return await this.prismaService.client.user.findFirst({ where: { id } });
+	}
 }

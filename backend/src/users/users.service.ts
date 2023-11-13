@@ -17,4 +17,9 @@ export class UsersService implements UsersServiceInterface {
 		const user = await this.usersRepository.findByEmail(email);
 		return user ?? null;
 	}
+
+	async findUserById(id: number): Promise<User | null> {
+		const user = await this.usersRepository.findById(id);
+		return user ?? null;
+	}
 }
