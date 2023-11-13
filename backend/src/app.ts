@@ -58,7 +58,7 @@ export class App {
 		this.app.use(json());
 		this.app.use(cookieParser());
 		this.app.use(helmet());
-		console.log(this.configService.get('ALLOWED_ORIGINS'));
+
 		const corsOptions: CorsOptions = {
 			// origin: (origin, callback) => {
 			// 	if (
@@ -71,13 +71,13 @@ export class App {
 			// 		callback(null, this.configService.get('ALLOWED_ORIGINS').split(';'));
 			// 	}
 			// },
-			origin: this.configService.get('ALLOWED_ORIGINS').split(';'),
+			origin: this.configService.get('ALLOWED_ORIGINS'),
 			methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
 			credentials: true,
 			optionsSuccessStatus: 200,
-			allowedHeaders: ['Origin', 'X - Requested - With', 'Content - Type', 'Accept'],
+			// allowedHeaders: ['Origin', 'X - Requested - With', 'Content - Type', 'Accept'],
 		};
-		console.log(corsOptions);
+
 		this.app.use(cors(corsOptions));
 
 		this.app.use(this.authMiddleware.execute.bind(this.authMiddleware));

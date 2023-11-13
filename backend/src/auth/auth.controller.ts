@@ -62,6 +62,7 @@ export class AuthController extends BaseController implements AuthControllerInte
 		try {
 			const { token } = await this.authService.signIn(req.body);
 			this.cookieService.setToken(res, token);
+
 			this.ok(res, {});
 		} catch (error) {
 			next(error);
