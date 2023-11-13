@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { signUp } from "@/shared/api";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,7 +28,7 @@ export type SigUpFormSchema = z.infer<typeof signUpFormSchema>;
 
 export const useSignUpForm = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const {
     register,
@@ -42,7 +42,7 @@ export const useSignUpForm = () => {
     mutationFn: signUp,
     onSuccess: () => {
       navigate("/");
-      queryClient.invalidateQueries(["session"]);
+      // queryClient.invalidateQueries(["session"]);
     },
   });
 
