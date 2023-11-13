@@ -18,6 +18,7 @@ export class CookieService implements CookieServiceInterface {
 				domain: this.configService.get('ALLOWED_ORIGINS'),
 				sameSite: 'none',
 				secure: true,
+				path: '/',
 			});
 		}
 	}

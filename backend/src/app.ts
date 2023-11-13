@@ -60,17 +60,19 @@ export class App {
 		this.app.use(helmet());
 
 		const corsOptions: CorsOptions = {
-			origin: (origin, callback) => {
-				if (
-					!origin ||
-					(this.configService.get('ALLOWED_ORIGINS') &&
-						!this.configService.get('ALLOWED_ORIGINS').includes(origin))
-				) {
-					callback(new Error('Not Allowed by CORS'));
-				} else {
-					callback(null, this.configService.get('ALLOWED_ORIGINS').split(';'));
-				}
-			},
+			// origin: (origin, callback) => {
+			// 	if (
+			// 		!origin ||
+			// 		(this.configService.get('ALLOWED_ORIGINS') &&
+			// 			!this.configService.get('ALLOWED_ORIGINS').includes(origin))
+			// 	) {
+			// 		callback(new Error('Not Allowed by CORS'));
+			// 	} else {
+			// 		callback(null, this.configService.get('ALLOWED_ORIGINS').split(';'));
+			// 	}
+			// },
+			origin: this.configService.get('ALLOWED_ORIGINS').split(';'),
+			methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
 			credentials: true,
 			optionsSuccessStatus: 200,
 		};
@@ -78,13 +80,13 @@ export class App {
 
 		this.app.use(this.authMiddleware.execute.bind(this.authMiddleware));
 
-		this.app.use((req, res, next) => {
-			res.setHeader(
-				'Access-Control-Allow-Headers',
-				'Origin, X-Requested-With, Content-Type, Accept',
-			);
-			next();
-		});
+		// this.app.use((req, res, next) => {
+		// 	res.setHeader(
+		// 		'Access-Control-Allow-Headers',
+		// 		'Origin, X-Requested-With, Content-Type, Accept',
+		// 	);
+		// 	next();
+		// });
 	}
 
 	private useRoutes(): void {
