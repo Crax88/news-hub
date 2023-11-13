@@ -1,4 +1,4 @@
-import classes from "./Navbar.module.css";
+import classes from "./navbar.module.css";
 import { ReactNode } from "react";
 import { UiLink } from "@/shared/ui";
 import { useSessionQuery } from "@/entities/session";
