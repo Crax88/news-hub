@@ -16,7 +16,7 @@ export class CookieService implements CookieServiceInterface {
 				res.cookie(tokenKey, token, {
 					httpOnly: true,
 					maxAge: +cookieExpires * 24 * 60 * 60 * 100,
-					domain: '.onrender.com',
+					// domain: 'localhost',
 					sameSite: 'none',
 					secure: true,
 					path: '/',
@@ -32,7 +32,6 @@ export class CookieService implements CookieServiceInterface {
 				});
 			}
 		}
-		console.log(res.getHeaders());
 	}
 
 	removeToken(res: Response): void {
