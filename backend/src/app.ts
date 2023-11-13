@@ -78,11 +78,12 @@ export class App {
 
 		this.app.use(this.authMiddleware.execute.bind(this.authMiddleware));
 
-		this.app.use((req, res) => {
+		this.app.use((req, res, next) => {
 			res.setHeader(
 				'Access-Control-Allow-Headers',
 				'Origin, X-Requested-With, Content-Type, Accept',
 			);
+			next();
 		});
 	}
 
