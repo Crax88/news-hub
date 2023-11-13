@@ -58,7 +58,7 @@ export class App {
 		this.app.use(json());
 		this.app.use(cookieParser());
 		this.app.use(helmet());
-
+		console.log(this.configService.get('ALLOWED_ORIGINS'));
 		const corsOptions: CorsOptions = {
 			// origin: (origin, callback) => {
 			// 	if (
