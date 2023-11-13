@@ -1,9 +1,5 @@
 import { createNewsItem, getNews, updateNewsItem } from "@/shared/api";
-import {
-  UpdateNewsItemDto,
-  deleteNewsItem,
-  getNewsItem,
-} from "@/shared/api/api";
+import { deleteNewsItem, getNewsItem } from "@/shared/api/api";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const newsListKey = ["newsList"] as unknown[];
