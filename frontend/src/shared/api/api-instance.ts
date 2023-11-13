@@ -2,7 +2,7 @@ import axios from "axios";
 import type { AxiosError, AxiosRequestConfig } from "axios";
 // "https://news-hub-api-a9vv.onrender.com/api";
 export const apiInstance = axios.create({
-  baseURL: "http://localhost:4000/api", //import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
