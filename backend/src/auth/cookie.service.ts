@@ -16,7 +16,7 @@ export class CookieService implements CookieServiceInterface {
 				res.cookie(tokenKey, token, {
 					httpOnly: true,
 					maxAge: +cookieExpires * 24 * 60 * 60 * 100,
-					// domain: 'localhost',
+					domain: '.onrender.com',
 					sameSite: 'none',
 					secure: true,
 					path: '/',
