@@ -15,6 +15,7 @@ export class CookieService implements CookieServiceInterface {
 			res.cookie(tokenKey, token, {
 				httpOnly: true,
 				maxAge: +cookieExpires * 24 * 60 * 60 * 100,
+				domain: this.configService.get('ALLOWED_ORIGINS'),
 			});
 		}
 	}
