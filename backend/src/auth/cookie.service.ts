@@ -12,17 +12,27 @@ export class CookieService implements CookieServiceInterface {
 		const tokenKey = this.configService.get('TOKEN_KEY');
 		const cookieExpires = this.configService.get('TOKEN_COOKIE_EXPIRES');
 		if (tokenKey) {
-			res.cookie(tokenKey, token, {
-				httpOnly: true,
-				maxAge: +cookieExpires * 24 * 60 * 60 * 100,
-				domain: this.configService
-					.get('ALLOWED_ORIGINS')
-					.slice(this.configService.get('ALLOWED_ORIGINS').indexOf('.')),
-				sameSite: 'none',
-				secure: true,
-				path: '/',
-			});
+			if (this.configService.get('NODE_ENV') === 'production') {
+				res.cookie(tokenKey, token, {
+					httpOnly: true,
+					maxAge: +cookieExpires * 24 * 60 * 60 * 100,
+					// domain: 'localhost',
+					sameSite: 'none',
+					secure: true,
+					path: '/',
+				});
+			} else {
+				res.cookie(tokenKey, token, {
+					httpOnly: true,
+					maxAge: +cookieExpires * 24 * 60 * 60 * 100,
+					domain: 'localhost',
+					sameSite: 'lax',
+					secure: false,
+					path: '/',
+				});
+			}
 		}
+		console.log(res.getHeaders());
 	}
 
 	removeToken(res: Response): void {
