@@ -19,7 +19,6 @@ export class AuthMiddleware implements MiddlewareInterface {
 		try {
 			const tokenCookie = req.headers.cookie;
 			const token = tokenCookie?.split('=')[1];
-
 			if (token) {
 				const tokenData = await this.tokensService.validateToken(token);
 				if (tokenData) {
