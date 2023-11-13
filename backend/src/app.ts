@@ -75,7 +75,9 @@ export class App {
 			methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
 			credentials: true,
 			optionsSuccessStatus: 200,
+			allowedHeaders: ['Origin', 'X - Requested - With', 'Content - Type', 'Accept'],
 		};
+		console.log(corsOptions);
 		this.app.use(cors(corsOptions));
 
 		this.app.use(this.authMiddleware.execute.bind(this.authMiddleware));
