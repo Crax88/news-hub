@@ -39,6 +39,7 @@ export class NewsRepository implements NewsRepositoryInterface {
 	async getNews(): Promise<New[]> {
 		return await this.prismaService.client.new.findMany({
 			include: { author: { select: { id: true, email: true } } },
+			orderBy: { publishDate: 'desc' },
 		});
 	}
 }
