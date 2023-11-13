@@ -68,7 +68,7 @@ export class App {
 				) {
 					callback(new Error('Not Allowed by CORS'));
 				} else {
-					callback(null, true);
+					callback(null, this.configService.get('ALLOWED_ORIGINS').split(';'));
 				}
 			},
 			credentials: true,
@@ -77,6 +77,13 @@ export class App {
 		this.app.use(cors(corsOptions));
 
 		this.app.use(this.authMiddleware.execute.bind(this.authMiddleware));
+
+		this.app.use((req, res) => {
+			res.setHeader(
+				'Access-Control-Allow-Headers',
+				'Origin, X-Requested-With, Content-Type, Accept',
+			);
+		});
 	}
 
 	private useRoutes(): void {
