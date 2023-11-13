@@ -61,16 +61,15 @@ export class App {
 
 		const corsOptions: CorsOptions = {
 			origin: (origin, callback) => {
-				callback(null, true);
-				// if (
-				// 	!origin ||
-				// 	(this.configService.get('ALLOWED_ORIGINS') &&
-				// 		!this.configService.get('ALLOWED_ORIGINS').includes(origin))
-				// ) {
-				// 	callback(new Error('Not Allowed by CORS'));
-				// } else {
-				// 	callback(null, true);
-				// }
+				if (
+					!origin ||
+					(this.configService.get('ALLOWED_ORIGINS') &&
+						!this.configService.get('ALLOWED_ORIGINS').includes(origin))
+				) {
+					callback(new Error('Not Allowed by CORS'));
+				} else {
+					callback(null, true);
+				}
 			},
 			credentials: true,
 			optionsSuccessStatus: 200,
