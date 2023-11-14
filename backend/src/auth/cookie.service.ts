@@ -37,7 +37,7 @@ export class CookieService implements CookieServiceInterface {
 	removeToken(res: Response): void {
 		const tokenKey = this.configService.get('TOKEN_KEY');
 		if (tokenKey) {
-			res.clearCookie(tokenKey);
+			res.cookie(tokenKey, '', { expires: new Date(0) });
 		}
 	}
 }
