@@ -17,6 +17,8 @@ import { ExceptionFilterInterface } from './common/interfaces/exeptionFilter.int
 import { NewsControllerInterface } from './news/types/news.controller.interface';
 import { PrismaService } from './shared/services/prisma.service';
 import { MiddlewareInterface } from './common/interfaces/middleware.interface';
+import { UploadsControllerInterface } from './uploads/types/uploads.controller.interface';
+import path from 'node:path';
 
 @injectable()
 export class App {
@@ -32,6 +34,7 @@ export class App {
 		@inject(TYPES.NEWSCONTROLLER) private newsController: NewsControllerInterface,
 		@inject(TYPES.AUTHMIDDLEWARE) private authMiddleware: MiddlewareInterface,
 		@inject(TYPES.PRISMASERVICE) private prismaService: PrismaService,
+		@inject(TYPES.UPLOADSCONTROLLER) private uploadsController: UploadsControllerInterface,
 	) {
 		this.port = +this.configService.get('API_PORT');
 		this.app = express();
@@ -55,45 +58,26 @@ export class App {
 	}
 
 	private useMiddlewares(): void {
-		this.app.use(json());
-		this.app.use(cookieParser());
-		this.app.use(helmet());
-
 		const corsOptions: CorsOptions = {
-			// origin: (origin, callback) => {
-			// 	if (
-			// 		!origin ||
-			// 		(this.configService.get('ALLOWED_ORIGINS') &&
-			// 			!this.configService.get('ALLOWED_ORIGINS').includes(origin))
-			// 	) {
-			// 		callback(new Error('Not Allowed by CORS'));
-			// 	} else {
-			// 		callback(null, this.configService.get('ALLOWED_ORIGINS').split(';'));
-			// 	}
-			// },
 			origin: this.configService.get('ALLOWED_ORIGINS'),
 			methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
 			credentials: true,
 			optionsSuccessStatus: 200,
-			// allowedHeaders: ['Origin', 'X - Requested - With', 'Content - Type', 'Accept'],
 		};
 
 		this.app.use(cors(corsOptions));
 
+		this.app.use(express.static(path.resolve(__dirname, '..', 'storage')));
+		this.app.use(json());
+		this.app.use(cookieParser());
+		this.app.use(helmet());
 		this.app.use(this.authMiddleware.execute.bind(this.authMiddleware));
-
-		// this.app.use((req, res, next) => {
-		// 	res.setHeader(
-		// 		'Access-Control-Allow-Headers',
-		// 		'Origin, X-Requested-With, Content-Type, Accept',
-		// 	);
-		// 	next();
-		// });
 	}
 
 	private useRoutes(): void {
 		this.app.use('/api', this.authController.router);
 		this.app.use('/api', this.newsController.router);
+		this.app.use('/api', this.uploadsController.router);
 	}
 
 	private useExceptionFilters(): void {
