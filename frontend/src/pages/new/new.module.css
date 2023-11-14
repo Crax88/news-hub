@@ -60,3 +60,150 @@
   color: hsl(var(--clr-primary));
   text-decoration: none;
 }
+
+.new_item_body a,
+.new_item_body a:visited {
+  text-decoration: underline;
+}
+
+.new_item_body a[href]:after {
+  content: " (" attr(href) ")";
+}
+
+.new_item_body h1,
+.new_item_body h2,
+.new_item_body h3 {
+  border-bottom: 2px solid #fafafa;
+  margin-bottom: 1.15rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.new_item_body blockquote {
+  border-left: 8px solid #fafafa;
+  padding: 1rem;
+}
+
+.new_item_body pre,
+.new_item_body code {
+  background-color: #fafafa;
+}
+
+.new_item_body abbr[title]:after {
+  content: " (" attr(title) ")";
+}
+
+.new_item_body a[href^="#"]:after,
+.new_item_body a[href^="javascript:"]:after {
+  content: "";
+}
+
+.new_item_body pre,
+.new_item_body blockquote {
+  border: 1px solid #999;
+  page-break-inside: avoid;
+}
+
+.new_item_body thead {
+  display: table-header-group;
+}
+
+.new_item_body tr,
+.new_item_body img {
+  page-break-inside: avoid;
+}
+
+.new_item_body img {
+  max-width: 100% !important;
+}
+
+.new_item_body p,
+.new_item_body h2,
+.new_item_body h3 {
+  orphans: 3;
+  widows: 3;
+}
+
+.new_item_body h2,
+.new_item_body h3 {
+  page-break-after: avoid;
+}
+
+.new_item_body pre,
+.new_item_body code {
+  font-family: Menlo, Monaco, "Courier New", monospace;
+}
+
+.new_item_body pre {
+  padding: 0.5rem;
+  line-height: 1.25;
+  overflow-x: scroll;
+}
+
+.new_item_body a,
+.new_item_body a:visited {
+  color: hsl(var(--clr-blue));
+}
+
+.new_item_body a:hover,
+.new_item_body a:focus,
+.new_item_body a:active {
+  color: hsl(var(--clr-blue));
+}
+
+.new_item_body {
+  line-height: 1.85;
+}
+
+.new_item_body p {
+  font-size: 1rem;
+  margin-bottom: 1.3rem;
+}
+
+.new_item_body h1,
+.new_item_body h2,
+.new_item_body h3,
+.new_item_body h4 {
+  margin: 1.414rem 0 0.5rem;
+  font-weight: inherit;
+  line-height: 1.42;
+}
+
+.new_item_body h1 {
+  margin-top: 0;
+  font-size: 3.998rem;
+}
+
+.new_item_body h2 {
+  font-size: 2.827rem;
+}
+
+.new_item_body h3 {
+  font-size: 1.999rem;
+}
+
+.new_item_body h4 {
+  font-size: 1.414rem;
+}
+
+.new_item_body h5 {
+  font-size: 1.121rem;
+}
+
+.new_item_body h6 {
+  font-size: 0.88rem;
+}
+
+.new_item_body small {
+  font-size: 0.707em;
+}
+
+.new_item_body img,
+.new_item_body canvas,
+.new_item_body iframe,
+.new_item_body video,
+.new_item_body svg,
+.new_item_body select,
+.new_item_body textarea {
+  max-width: 100%;
+}
