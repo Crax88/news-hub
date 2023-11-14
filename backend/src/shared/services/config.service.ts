@@ -19,6 +19,7 @@ export class ConfigService implements ConfigServiceInterface {
 		ALLOWED_ORIGINS: '',
 		TOKEN_KEY: '',
 		TOKEN_COOKIE_EXPIRES: '',
+		DOWNLOAD_URL: '',
 	};
 	constructor(@inject(TYPES.LOGGER) private loggerService: LoggerServiceInterface) {
 		try {
