@@ -42,10 +42,11 @@ export const NewFormEditor = ({
           // Move to reqct-query and api
           const formData = new FormData();
           formData.append("file", image);
-          const res = await fetch("http://localhost:4000/api/upload", {
+          const res = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
             method: "POST",
             body: formData,
             credentials: "include",
+            mode: "cors",
           });
           if (!res.ok) {
             throw new Error(res.statusText);
